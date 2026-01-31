@@ -1,0 +1,23 @@
+export type IncidentType = 'accident' | 'theft' | 'fire' | 'water damage' | 'natural disaster';
+
+export interface Policy {
+  policyId: string;
+  startDate: Date;
+  endDate: Date;
+  deductible: number;
+  coverageLimit: number;
+  coveredIncidents: IncidentType[];
+}
+
+export interface Claim {
+  policyId: string;
+  incidentType: IncidentType;
+  incidentDate: Date;
+  amountClaimed: number;
+}
+
+export interface ClaimEvaluation {
+  approved: boolean;
+  payout: number;
+  reasonCode: string;
+}
