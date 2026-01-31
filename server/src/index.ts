@@ -1,35 +1,34 @@
-import {ApolloServer} from '@apollo/server';
-import { startStandaloneServer } from '@apollo/server/standalone';
 import express from 'express';
-import bodyParser from 'body-parser';
 import cors from 'cors';
+import bodyParser from 'body-parser';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
 import { typeDefs } from './graphql/schema.js';
 import { resolvers } from './graphql/resolvers.js';
 
-
 async function startServer() {
-    const app = express();
-    app.use(cors(), bodyParser.json());
+  const app = express();
 
-    const server = new ApolloServer({
-        typeDefs,
-        resolvers
-    });
+  // MUST come before expressMiddleware
+  app.use(cors());
+  app.use(bodyParser.json());
 
-    await server.start();
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+  });
 
-    const { url } = await startStandaloneServer(server, {
-        listen: { port: parseInt(process.env.PORT || '4000') }
-    });
+  await server.start();
 
-    const port = process.env.PORT || 4000;
-    app.listen(port, () => {
-        console.log(`Server ready at http://localhost:${port}/graphql`);
-    });
+  // Apollo middleware must come AFTER json middleware
+  app.use('/graphql', expressMiddleware(server));
+
+  const port = process.env.PORT || 4000;
+  app.listen(port, () => {
+    console.log(`Server ready at http://localhost:${port}/graphql`);
+  });
 }
 
-startServer().catch((error) => {
-    console.error('Error starting server:', error);
-    process.exit(1);
+startServer().catch(err => {
+  console.error('Error starting server:', err);
 });
-
