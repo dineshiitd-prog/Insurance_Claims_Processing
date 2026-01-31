@@ -1,0 +1,23 @@
+{
+  "name": "insurance_claims_processing",
+  "version": "1.0.0",
+  "description": "Insurance Claims Processing Kata for P3 Assignment",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "esbuild": "^0.27.2",
+    "get-tsconfig": "^4.13.1",
+    "resolve-pkg-maps": "^1.0.0",
+    "undici-types": "^7.16.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.1.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}
